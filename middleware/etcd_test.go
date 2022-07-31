@@ -1,4 +1,4 @@
-package discovery
+package middleware
 
 import (
 	"fmt"
@@ -18,9 +18,20 @@ func TestPut(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	etcdClient := NewEtcdClient(etcdEndpoints, "", "")
-	resp, err := etcdClient.Get("my-key")
+	resp, err := etcdClient.Get("/services")
 	if err != nil {
 		t.Fatal(err)
 	}
 	fmt.Println(resp)
+}
+
+func TestGetByPrefixKey(t *testing.T) {
+	etcdClient := NewEtcdClient(etcdEndpoints, "", "")
+	resp, err := etcdClient.GetByPrefixKey("/services")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, value := range resp {
+		fmt.Println(string(value.Value))
+	}
 }

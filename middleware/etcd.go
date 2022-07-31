@@ -1,9 +1,10 @@
-package discovery
+package middleware
 
 import (
 	"context"
 	dai_engine "dai-engine"
 	"fmt"
+	"go.etcd.io/etcd/api/v3/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"log"
 )
@@ -44,4 +45,13 @@ func (c *EtcdClient) Get(key string) (string, error) {
 func (c *EtcdClient) Put(key, val string) error {
 	_, err := c.Client.Put(context.Background(), key, val)
 	return err
+}
+
+// GetByPrefixKey get value by prefix key
+func (c *EtcdClient) GetByPrefixKey(key string) ([]*mvccpb.KeyValue, error) {
+	r, err := c.Client.Get(context.Background(), key, clientv3.WithPrefix())
+	if r.Count == 0 {
+		return nil, dai_engine.ErrEmptyValue
+	}
+	return r.Kvs, err
 }
