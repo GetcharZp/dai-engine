@@ -13,7 +13,7 @@ func TestDiscovery(t *testing.T) {
 		Password:  "",
 	})
 	defer d.Close()
-	err := d.WatchService("/services")
+	err := d.WatchService("/DaiServices")
 	if err != nil {
 		log.Fatalln(err)
 	}

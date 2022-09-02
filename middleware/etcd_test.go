@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var etcdEndpoints = []string{"119.27.186.148:2379"}
+var etcdEndpoints = []string{"192.168.1.8:2379"}
 
 func TestPut(t *testing.T) {
 	etcdClient := NewEtcdClient(etcdEndpoints, "", "")
@@ -27,7 +27,7 @@ func TestGet(t *testing.T) {
 
 func TestGetByPrefixKey(t *testing.T) {
 	etcdClient := NewEtcdClient(etcdEndpoints, "", "")
-	resp, err := etcdClient.GetByPrefixKey("/services")
+	resp, err := etcdClient.GetByPrefixKey("/DaiServices")
 	if err != nil {
 		t.Fatal(err)
 	}

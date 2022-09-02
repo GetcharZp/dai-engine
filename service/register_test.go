@@ -11,7 +11,7 @@ func TestRegisterService(t *testing.T) {
 		Endpoints: []string{"192.168.1.8:2379"},
 		Username:  "",
 		Password:  "",
-	}, "/services", "127.0.0.1:8080", 5)
+	}, "/DaiServices/my/1", "127.0.0.1:8080", 5)
 	if err != nil {
 		log.Fatalln(err)
 	}

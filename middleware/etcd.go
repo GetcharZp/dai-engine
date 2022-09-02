@@ -7,6 +7,7 @@ import (
 	"go.etcd.io/etcd/api/v3/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"log"
+	"time"
 )
 
 type EtcdClient struct {
@@ -23,6 +24,12 @@ func NewEtcdClient(endpoints []string, username, password string) *EtcdClient {
 	client, err := clientv3.New(config)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("New Etcd Error:%v", err))
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
+	defer cancel()
+	_, err = client.Status(ctx, endpoints[0])
+	if err != nil {
+		log.Fatalf("Etct Connect Error: %v", err)
 	}
 	return &EtcdClient{
 		Client: client,

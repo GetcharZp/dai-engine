@@ -4,7 +4,9 @@ import (
 	"crypto/hmac"
 	"crypto/md5"
 	"crypto/sha256"
+	"dai-engine/define"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -55,4 +57,10 @@ func If(condition bool, trueValue, falseValue interface{}) interface{} {
 		return trueValue
 	}
 	return falseValue
+}
+
+// MapToByte .
+func MapToByte(m define.M) []byte {
+	b, _ := json.Marshal(m)
+	return b
 }
