@@ -5,11 +5,15 @@ import (
 	"crypto/md5"
 	"crypto/sha256"
 	"dai-engine/define"
+	"dai-engine/logger"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	uuid "github.com/satori/go.uuid"
 	"math/rand"
+	"net"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -63,4 +67,33 @@ func If(condition bool, trueValue, falseValue interface{}) interface{} {
 func MapToByte(m define.M) []byte {
 	b, _ := json.Marshal(m)
 	return b
+}
+
+// IsLocalIp judge ip in local
+func IsLocalIp(ipAddr string) bool {
+	ip := net.ParseIP(ipAddr)
+	ip4 := ip.To4()
+	if ip4 == nil {
+		return true
+	}
+	return ip4[0] == 10 ||
+		(ip4[0] == 172 && ip4[1] >= 16 && ip4[1] <= 31) ||
+		(ip4[0] == 169 && ip4[1] == 254) ||
+		(ip4[0] == 192 && ip4[1] == 168)
+}
+
+// GetLocalIp get local ip
+func GetLocalIp() string {
+	conn, err := net.Dial("udp", "8.8.8.8:53")
+	if err != nil {
+		logger.Error("DAIL ERROR : " + err.Error())
+		return ""
+	}
+	localAddr := conn.LocalAddr()
+	return strings.Split(localAddr.String(), ":")[0]
+}
+
+// GetUUID .
+func GetUUID() string {
+	return uuid.NewV4().String()
 }
