@@ -13,7 +13,7 @@ go get gitee.com/getcharzp/dai-engine
 1. 启动 worker
 
 ```go
-w := NewWork([]string{"192.168.1.8:2379"}, "", "")
+w := service.NewWork([]string{"192.168.1.8:2379"}, "", "")
 w.Run()
 ```
 
