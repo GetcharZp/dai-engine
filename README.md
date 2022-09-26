@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-go get gitee.com/getcharzp/dai-engine
+go get gitee.com/up-zero/dai-engine
 ```
 
 ## 快速开始
